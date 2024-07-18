@@ -24,4 +24,7 @@ export class Subscription {
 
   @Column({ type: 'datetime', nullable: true })
   end_date: Date;
+
+  @Column()
+  is_active: boolean;
 }
