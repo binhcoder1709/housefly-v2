@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body
+{
+  background-color: black;
+  padding: 10px 10px;
+  color: white;
+}
+
+span, button
+{
+  font-size: larger;
+  font-weight: 600;
+}
+
+a, span, button
+{
+  color: gray;
+}
+
+.active
+{
+  color: white;
+}
