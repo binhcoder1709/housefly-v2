@@ -1,0 +1,33 @@
+.nav-list a
+{
+    font-size: x-large;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+.nav-list a:not(.active)
+{
+    transition: all 0.2s;
+    color: white;
+    background-color: transparent;
+}
+
+.nav-list a:not(.active):hover
+{
+    transition: all 0.2s;
+    color: #02FF00;
+    background-color: transparent;
+    border: 2px solid #02FF00;
+}
+
+.active
+{
+    color: black;
+    background-color: #02FF00;
+}

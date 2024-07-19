@@ -1,0 +1,13 @@
+  
+  .slider-item {
+    display: flex;
+    /* flex-direction: column; */
+    /* align-items: center; */
+    padding: 10px;
+  }
+  
+  .slick-slide {
+    display: flex;
+    /* justify-content: center; */
+  }
+  

@@ -1,0 +1,36 @@
+.music-item:hover
+{
+    background-color: #00ff00;
+    color: black;
+}
+
+.music-item:hover span
+{
+    color: black;
+}
+
+.music-item:hover p
+{
+    color: black;
+}
+
+.music-item:hover #musicIcon
+{
+    color: black;
+}
+
+.music-item:hover #heartIcon
+{
+    color: black;
+}
+
+.music-item:hover #threeDotIcon
+{
+    color: black;
+}
+
+.music-item:hover #vipIcon
+{
+    background-color: black;
+    color: #00ff00;
+}

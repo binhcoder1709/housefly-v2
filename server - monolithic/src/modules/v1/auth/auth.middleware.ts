@@ -11,16 +11,16 @@ import { UserRepository } from '../users/user.repository';
 export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly userRepos: UserRepository) {}
   async use(req: Request, res: Response, next: NextFunction) {
-    if (req.path === '/auth/register') {
+    if (req.path === '/v1/auth/register') {
       const user = await this.userRepos.findByEmail(req.body.email);
-      if (!user) {
-        throw new BadRequestException();
+      if (user) {
+        throw new BadRequestException("Email already exists");
       }
       next();
     } else if (req.path === '/auth/login') {
       const user = await this.userRepos.findByEmail(req.body.email);
-      if (user) {
-        throw new BadRequestException();
+      if (!user) {
+        throw new BadRequestException("Email doesn't exists");
       }
       if (user.role === 0) {
         throw new ForbiddenException();

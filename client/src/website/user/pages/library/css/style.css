@@ -1,0 +1,14 @@
+.custom-tab .ant-tabs-tab-btn {
+    color: white; /* Màu chữ cho tab */
+  }
+  
+  .custom-tab .ant-tabs-tab-btn:hover {
+    color: #02FF00; /* Màu chữ khi hover */
+  }
+  
+  .custom-tab .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #02FF00; /* Màu chữ cho tab đang active */
+  }
+  .custom-tab .ant-tabs-ink-bar {
+    background-color: #02FF00; /* Màu của thanh ngang phía dưới */
+  }
