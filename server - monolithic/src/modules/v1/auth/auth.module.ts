@@ -12,13 +12,14 @@ import { User, UserSchema } from 'src/schemas/user.schema';
 import { UserModule } from '../users/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    ConfigModule.forRoot(),
     JwtModule.register({
       secret: process.env.ACCESS_SECRET_KEY,
-      signOptions: { expiresIn: '15m' },
+      signOptions: { expiresIn: '30m' },
     }),
     UserModule,
   ],
@@ -29,6 +30,9 @@ export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .forRoutes({ path: '/v1/auth/register', method: RequestMethod.POST });
+      .forRoutes(
+        { path: '/v1/auth/register', method: RequestMethod.POST },
+        { path: '/v1/auth/login', method: RequestMethod.POST },
+      );
   }
 }

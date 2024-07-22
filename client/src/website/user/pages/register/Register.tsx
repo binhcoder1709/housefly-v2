@@ -2,6 +2,8 @@ import { Button, Form, Input, Modal } from "antd";
 import { FC, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 interface Props {
   button: React.ReactNode;
@@ -43,9 +45,11 @@ const Register: FC<Props> = (prop) => {
         .required("Vui lòng nhập lại mật khẩu"),
     }),
     onSubmit: async (values, { resetForm }) => {
+      NProgress.start()
       console.log(values);
       resetForm();
       handleOk();
+      NProgress.done()
     },
   });
 

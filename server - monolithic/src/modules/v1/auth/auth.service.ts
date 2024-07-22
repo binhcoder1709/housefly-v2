@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UserRepository } from '../users/user.repository';
 import { CreateUserDto } from 'src/dtos/auth/create-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -21,7 +25,10 @@ interface PayloadToken {
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userRepos: UserRepository, private readonly jwtService:JwtService) {}
+  constructor(
+    private readonly userRepos: UserRepository,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async registerService(
     createUserDto: CreateUserDto,
@@ -42,13 +49,12 @@ export class AuthService {
     }
   }
 
-  async loginService(loginDto:LoginDto)
-  {
+  async loginService(loginDto: LoginDto) {
     try {
       const userWithEmail = await this.userRepos.findByEmail(loginDto.email);
       const isPasswordValid = await bcrypt.compare(
         loginDto.password,
-        userWithEmail.password
+        userWithEmail.password,
       );
       if (!isPasswordValid) {
         throw new UnauthorizedException('Email or password is incorrect');
@@ -70,6 +76,8 @@ export class AuthService {
         RT: refreshToken,
       };
     } catch (error) {
+      console.log(error);
+
       throw new InternalServerErrorException('Internal server error');
     }
   }

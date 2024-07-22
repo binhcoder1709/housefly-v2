@@ -9,22 +9,7 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  @IsOptional()
-  @IsUrl()
-  avatar?: string;
-
   @IsNotEmpty()
   @IsString()
   password: string;
-
-  @IsOptional()
-  @IsNumber()
-  role?: number;
-
-  @IsOptional()
-  @IsNumber()
-  status?: number;
-
-  @IsOptional()
-  created_at?: Date;
 }

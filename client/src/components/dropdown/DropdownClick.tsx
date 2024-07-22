@@ -10,7 +10,7 @@ interface Props {
 const DropdownClick: FC<Props> = (prop) => {
   return (
     <>
-      <Dropdown menu={{ items: prop.items }} trigger={["click"]}>
+      <Dropdown className="cursor-pointer" menu={{ items: prop.items }} trigger={["click"]}>
         {prop.clickBtn}
       </Dropdown>
     </>

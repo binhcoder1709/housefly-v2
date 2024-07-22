@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import Header from "../layouts/header/Header";
 import Navigator from "../layouts/navigator/Navigator";
 import Playbar from "../layouts/playbar/Playbar";
-import '../css/index.css'
 
 export default function UserRoute() {
   return (
@@ -18,17 +17,17 @@ export default function UserRoute() {
           <div className="w-[80%] h-full bg-[#020030]">
             {/* header */}
             <div className="w-full h-[90px] bg-black">
-              <Header/>
+              <Header />
             </div>
             {/* main */}
-            <div className="w-full h-[calc(100%-90px)] overflow-x-auto">
-              <Outlet/>
+            <div className="outlet w-full h-[calc(100%-90px)] overflow-x-auto">
+              <Outlet />
             </div>
           </div>
         </div>
         {/* bottom container */}
         <div className="w-full">
-          <Playbar/>
+          <Playbar />
         </div>
       </div>
     </>

@@ -2,6 +2,9 @@ import { Button, Form, Input, Modal } from "antd";
 import { FC, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+
 
 interface Props {
   button: React.ReactNode;
@@ -34,9 +37,11 @@ const Login: FC<Props> = (prop) => {
       password: Yup.string().required("Vui lòng nhập mật khẩu"),
     }),
     onSubmit: async (values, { resetForm }) => {
+      NProgress.start();
       console.log(values);
       resetForm();
       handleOk();
+      NProgress.done();
     },
   });
 
@@ -52,8 +57,8 @@ const Login: FC<Props> = (prop) => {
         <Form layout="vertical" onFinish={formik.handleSubmit}>
           <Form.Item
             label="Email"
-            validateStatus={formik.errors.email ? "error" : undefined}
-            help={formik.errors.email}
+              validateStatus={formik.errors.email ? "error" : undefined}
+              help={formik.errors.email}
           >
             <Input
               name="email"

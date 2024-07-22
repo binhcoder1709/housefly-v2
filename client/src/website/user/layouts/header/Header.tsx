@@ -1,8 +1,50 @@
-import { BiSearch } from "react-icons/bi";
+import { BiCog, BiLogOut, BiSearch, BiUser } from "react-icons/bi";
 import Login from "../../pages/login/Login";
 import Register from "../../pages/register/Register";
+import { Avatar } from "antd";
+import type { MenuProps } from "antd";
+import { AntDesignOutlined } from "@ant-design/icons";
+import DropdownClick from "../../../../components/dropdown/DropdownClick";
+import { Link } from "react-router-dom";
 
 export default function Header() {
+  const userDropdownItems: MenuProps["items"] = [
+    {
+      label: (
+        <Link to={"#"} className="flex items-center gap-2">
+          <BiUser />
+          Thông tin cá nhân
+        </Link>
+      ),
+      key: "0",
+    },
+    {
+      label: <Link to={"#"}>Nâng cấp VIP</Link>,
+      key: "1",
+    },
+    {
+      label: (
+        <Link to={"#"} className="flex items-center gap-2">
+          <BiCog />
+          Cài đặt
+        </Link>
+      ),
+      key: "2",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: (
+        <button className="flex items-center gap-2">
+          <BiLogOut />
+          Đăng xuất
+        </button>
+      ),
+      danger: true,
+      key: "4",
+    },
+  ];
   return (
     <>
       <div className="justify-between px-6 h-full flex items-center">
@@ -22,7 +64,7 @@ export default function Header() {
           />
         </div>
         {/* user function */}
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <Register
             button={
               <>
@@ -42,7 +84,11 @@ export default function Header() {
               </>
             }
           />
-        </div>
+        </div> */}
+        <DropdownClick
+          clickBtn={<Avatar className="bg-gray-400">U</Avatar>}
+          items={userDropdownItems}
+        />
       </div>
     </>
   );

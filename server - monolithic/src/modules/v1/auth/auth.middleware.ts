@@ -17,7 +17,7 @@ export class AuthMiddleware implements NestMiddleware {
         throw new BadRequestException("Email already exists");
       }
       next();
-    } else if (req.path === '/auth/login') {
+    } else if (req.path === '/v1/auth/login') {
       const user = await this.userRepos.findByEmail(req.body.email);
       if (!user) {
         throw new BadRequestException("Email doesn't exists");
