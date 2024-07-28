@@ -5,6 +5,7 @@ import { Genre } from 'src/entities/genre.entity';
 import { PlaylistSong } from 'src/entities/playlist-song.entity';
 import { Playlist } from 'src/entities/playlist.entity';
 import { Song } from 'src/entities/song.entity';
+import { Subscription } from 'src/entities/subcription.entity';
 import { User } from 'src/entities/user.entity';
 import { DataSource } from 'typeorm';
 
@@ -13,13 +14,23 @@ export const databaseProviders = [
     provide: 'DATA_SOURCE',
     useFactory: async () => {
       const dataSource = new DataSource({
-        type: 'mongodb',
+        type: 'mysql',
         host: process.env.DB_HOST,
         port: Number(process.env.DB_PORT),
         username: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
-        entities: [User, Playlist, PlaylistSong, Artist,ArtistSong, Genre, Album, Song],
+        entities: [
+          User,
+          Playlist,
+          PlaylistSong,
+          Artist,
+          ArtistSong,
+          Genre,
+          Album,
+          Song,
+          Subscription,
+        ],
         synchronize: true,
       });
 

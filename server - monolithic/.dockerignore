@@ -1,0 +1,42 @@
+# Node modules
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs
+*.log
+*.log.*
+
+# Build output
+dist
+build
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Docker files
+Dockerfile*
+docker-compose*
+
+# Mac OS specific files
+.DS_Store
+
+# IDE specific files
+.vscode
+.idea
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Ignore test directories and files
+test
+tests
+__tests__
+__mocks__
+__snapshots__
+__test__

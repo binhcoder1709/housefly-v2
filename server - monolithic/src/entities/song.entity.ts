@@ -27,10 +27,10 @@ export class Song {
   @Column()
   song_duration: number;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @ManyToOne(() => Genre, (genre) => genre.songs)
+  @ManyToOne(() => Genre, (genre) => genre.songs, {onDelete: 'CASCADE'})
   @JoinColumn({ name: 'genre_id' })
   genre: Genre;
 

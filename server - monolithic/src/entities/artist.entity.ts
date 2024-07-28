@@ -16,7 +16,7 @@ export class Artist {
   @Column()
   bio: string;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
   @OneToMany(() => ArtistSong, (artistSong) => artistSong.artist)

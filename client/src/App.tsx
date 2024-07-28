@@ -7,6 +7,7 @@ import MusicAdmin from "./website/admin/pages/music/Music";
 import Detail from "./website/user/pages/detail/Detail";
 import Login from "./website/admin/pages/login/Login";
 import AdminRoute from "./website/admin/routes/AdminRoute";
+import Account from "./website/admin/pages/account/Account";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         </Route>
         <Route path="/admin" element={<AdminRoute />}>
           <Route path="/admin/music" element={<MusicAdmin />} />
+          <Route path="/admin/account" element={<Account/>}/>
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFoundPage />} />

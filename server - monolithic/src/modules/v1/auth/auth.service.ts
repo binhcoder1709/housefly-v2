@@ -8,7 +8,7 @@ import { CreateUserDto } from 'src/dtos/auth/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from 'src/dtos/auth/login-request.dto';
-import { User } from 'src/schemas/user.schema';
+import { User } from 'src/entities/user.entity';
 
 export interface IRegisterResponse {
   data: User;
@@ -16,7 +16,7 @@ export interface IRegisterResponse {
 }
 
 interface PayloadToken {
-  // user_id: string;
+  user_id: string;
   user_name: string;
   email: string;
   avatar: string;
@@ -60,7 +60,7 @@ export class AuthService {
         throw new UnauthorizedException('Email or password is incorrect');
       }
       const dataPayload: PayloadToken = {
-        // user_id: userWithEmail,
+        user_id: userWithEmail.user_id,
         user_name: userWithEmail.user_name,
         email: userWithEmail.email,
         avatar: userWithEmail.avatar,

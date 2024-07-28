@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { TokenState } from "../useSlice/tokenSlice";
+import tokenSlice, { TokenState } from "../useSlice/tokenSlice";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    token: tokenSlice,
+  },
 });
 export type RootState = {
   token: TokenState;

@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # nest api
+  nest-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=${PORT}
+      - ACCESS_SECRET_KEY=${ACCESS_SECRET_KEY}
+      - REFRESH_SECRET_KEY=${REFRESH_SECRET_KEY}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_ADMIN_EMAIL=${DB_ADMIN_EMAIL}
+      - DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD}
+    volumes:
+      - ./src:/usr/src/app/src
+    command: npm run start:dev
+    depends_on:
+      - postgres
+
+  # postgreSQL database
+  postgres:
+    image: postgres:13
+    container_name: postgres_db
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # postgreSQL admin 
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    ports:
+      - "85:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${DB_ADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${DB_ADMIN_PASSWORD}
+    restart: unless-stopped
+
+  # # redis
+  # redis:
+  #   image: redis:6.2
+  #   container_name: redis
+  #   restart: always
+  #   ports:
+  #     - '6379:6379'
+  #   volumes:
+  #     - redis_data:/data
+
+  # # redis insight
+  # redis-insight:
+  #   image: redislabs/redisinsight:latest
+  #   container_name: redis_insight
+  #   restart: always
+  #   ports:
+  #     - '8003:8003'
+  #   volumes:
+  #     - redis_insight_data:/db
+  #   depends_on:
+  #     - redis
+
+volumes:
+  postgres_data:

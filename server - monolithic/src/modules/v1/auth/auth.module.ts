@@ -7,8 +7,6 @@ import {
 import { TypeOrmModule } from 'src/configs/typeorm/typeorm.module';
 import { AuthService } from './auth.service';
 import { AuthMiddleware } from './auth.middleware';
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from 'src/schemas/user.schema';
 import { UserModule } from '../users/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';

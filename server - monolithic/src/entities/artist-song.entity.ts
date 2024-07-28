@@ -11,7 +11,7 @@ export class ArtistSong {
   @JoinColumn({ name: 'artist_id' })
   artist: Artist;
 
-  @ManyToOne(() => Song, (song) => song.artist_songs)
+  @ManyToOne(() => Song, (song) => song.artist_songs,{onDelete: 'CASCADE'})
   @JoinColumn({ name: 'song_id' })
   song: Song;
 }

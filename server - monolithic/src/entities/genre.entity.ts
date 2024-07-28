@@ -12,9 +12,9 @@ export class Genre {
   @Column()
   description: string;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @OneToMany(() => Song, (song) => song.genre)
+  @OneToMany(() => Song, (song) => song.genre, { cascade: true })
   songs: Song[];
 }

@@ -25,7 +25,7 @@ export class User {
   @Column({ default: 1 })
   status: number;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
   @OneToMany(() => Playlist, (playlist) => playlist.user)

@@ -1,13 +1,14 @@
 import { TabsProps } from "antd";
 import React from "react";
 import TabsItem from "../../../../components/tab/Tab";
+import Song from "./items/song/Song";
 
 export default function Music() {
   const tabItems: TabsProps["items"] = [
     {
       key: "1",
       label: "Bài hát",
-      children: "bài hát",
+      children: <Song/>,
     },
     {
       key: "2",
@@ -23,6 +24,7 @@ export default function Music() {
       key: "4",
       label: "Album",
       children: "album",
+      disabled: true,
     },
   ];
   return (

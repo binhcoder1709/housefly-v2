@@ -19,10 +19,10 @@ export class Subscription {
   @Column()
   plan: string;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   start_date: Date;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   end_date: Date;
 
   @Column()
