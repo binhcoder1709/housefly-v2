@@ -19,8 +19,6 @@ interface PayloadToken {
   user_id: string;
   user_name: string;
   email: string;
-  avatar: string;
-  role: number;
 }
 
 @Injectable()
@@ -30,10 +28,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  // register function
   async registerService(
     createUserDto: CreateUserDto,
   ): Promise<IRegisterResponse> {
     try {
+      // hash password
       const hashPassword = await bcrypt.hash(createUserDto.password, 10);
       const userCreate = {
         ...createUserDto,
@@ -49,9 +49,13 @@ export class AuthService {
     }
   }
 
+  // login function
   async loginService(loginDto: LoginDto) {
     try {
+      // check email
       const userWithEmail = await this.userRepos.findByEmail(loginDto.email);
+
+      // check password
       const isPasswordValid = await bcrypt.compare(
         loginDto.password,
         userWithEmail.password,
@@ -59,12 +63,12 @@ export class AuthService {
       if (!isPasswordValid) {
         throw new UnauthorizedException('Email or password is incorrect');
       }
+      
+      // create payload for token
       const dataPayload: PayloadToken = {
         user_id: userWithEmail.user_id,
         user_name: userWithEmail.user_name,
         email: userWithEmail.email,
-        avatar: userWithEmail.avatar,
-        role: userWithEmail.role,
       };
       const accessToken = this.jwtService.sign(dataPayload);
       const refreshToken = this.jwtService.sign(dataPayload, {
@@ -74,6 +78,7 @@ export class AuthService {
       return {
         AT: accessToken,
         RT: refreshToken,
+        role: userWithEmail.role,
       };
     } catch (error) {
       console.log(error);

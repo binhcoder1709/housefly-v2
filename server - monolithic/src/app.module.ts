@@ -10,6 +10,7 @@ import { SongModule } from './modules/v1/songs/song.module';
 import { GenreModule } from './modules/v1/genres/genre.module';
 import { UploadModule } from './modules/v1/upload/upload.module';
 import { ArtistModule } from './modules/v1/artists/artist.module';
+import { SuggestModule } from './modules/v1/suggests/suggest.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ArtistModule } from './modules/v1/artists/artist.module';
     GenreModule,
     UploadModule,
     ArtistModule,
+    SuggestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

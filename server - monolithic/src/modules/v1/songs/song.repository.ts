@@ -35,6 +35,7 @@ export class SongRepository {
           genre: item.genre.genre_name,
         })),
         totalPage: totalPage,
+        totalSongs: totalSongs,
       };
     }
   }

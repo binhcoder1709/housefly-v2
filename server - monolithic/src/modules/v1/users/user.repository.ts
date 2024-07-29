@@ -13,8 +13,8 @@ export class UserRepository {
 
   async findAll(page: number, limit: number) {
     let offset: number = 0;
-    const users = await this.userRepos.find();
-    const totalPage = Math.ceil(users.length / limit);
+    const totalUsers = await this.userRepos.count();
+    const totalPage = Math.ceil(totalUsers / limit);
     if (page > 0) {
       offset = (page - 1) * limit;
       const usersLimit = await this.userRepos.find({
@@ -24,6 +24,7 @@ export class UserRepository {
       return {
         dataLimit: usersLimit,
         totalPage: totalPage,
+        totalUsers: totalUsers,
       };
     }
   }
@@ -35,7 +36,7 @@ export class UserRepository {
   async findByEmail(email: string): Promise<User> {
     return await this.userRepos.findOneBy({ email: email });
   }
-  
+
   async createOne(data: Partial<User>): Promise<User> {
     return await this.userRepos.save(data);
   }

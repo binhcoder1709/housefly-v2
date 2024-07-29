@@ -16,7 +16,11 @@ export class GenreRepository {
   }
 
   async findById(genre_id: string): Promise<Genre> {
-    return this.genreRepos.findOneBy({ genre_id: genre_id });
+    return this.genreRepos.findOne({where: { genre_id: genre_id }, relations: ['songs']});
+  }
+
+  async findByName(genre_name: string): Promise<Genre> {
+    return this.genreRepos.findOne({where: { genre_name: genre_name }, relations: ['songs']});
   }
 
   async createOne(data: Partial<Genre>): Promise<Genre> {

@@ -24,10 +24,10 @@ export class UserController {
     return await this.userService.getAllUsersService(page, limit);
   }
 
-  @Get('/email')
+  @Get('/:id')
   @HttpCode(200)
-  async getUserByEmailController(@Body('email') email: string): Promise<User> {
-    return await this.userService.getUserByEmailService(email);
+  async getUserByEmailController(@Param('id') id: string): Promise<User> {
+    return await this.userService.getUserByIdService(id);
   }
 
   @Put('/status')

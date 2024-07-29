@@ -24,6 +24,14 @@ export class UserService {
     return user;
   }
 
+  async getUserByIdService(user_id: string): Promise<User> {
+    const user = await this.userRepository.findById(user_id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
   async changeStatusService(
     user_id: string,
     status: number,
