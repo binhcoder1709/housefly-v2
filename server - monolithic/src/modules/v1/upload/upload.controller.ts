@@ -17,4 +17,11 @@ export class UploadController {
     const url = await this.uploadService.uploadMusicFileService(file);
     return { url };
   }
+
+  @Post('/music-image')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadMusicImageFileController(@UploadedFile() file: Express.Multer.File) {
+    const url = await this.uploadService.uploadMusicImageFileService(file);
+    return { url };
+  }
 }

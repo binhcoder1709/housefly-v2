@@ -45,7 +45,9 @@ export default function AdminRoute() {
         {/* content */}
         <div className="w-[80%] h-screen ">
           {/* header */}
-          <div className="w-full h-[50px] bg-slate-400"><Header/></div>
+          <div className="w-full h-[50px] bg-slate-400">
+            <Header />
+          </div>
           {/* main */}
           <div className="w-full h-[calc(100%-50px)] p-2 overflow-x-auto">
             <Outlet />

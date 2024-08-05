@@ -67,7 +67,6 @@ const Login: FC<Props> = (prop) => {
         );
         setIsModalOpen(false);
         resetForm();
-        window.location.href = "/";
       }
     },
   });

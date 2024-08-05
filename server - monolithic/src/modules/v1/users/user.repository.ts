@@ -1,8 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { User } from 'src/entities/user.entity';
 import { DataSource, DeleteResult, Repository, UpdateResult } from 'typeorm';
+
+export interface IUserResponse {
+  user_id: string;
+  user_name: string;
+  email: string;
+  avatar: string;
+  role: number;
+  status: number;
+}
 
 @Injectable()
 export class UserRepository {
@@ -21,16 +28,34 @@ export class UserRepository {
         take: limit,
         skip: offset,
       });
+      const usersResponse: IUserResponse[] = usersLimit.map((item) => ({
+        user_id: item.user_id,
+        user_name: item.user_name,
+        email: item.email,
+        avatar: item.avatar,
+        role: item.role,
+        status: item.status,
+      }));
       return {
-        dataLimit: usersLimit,
+        dataLimit: usersResponse,
         totalPage: totalPage,
         totalUsers: totalUsers,
       };
     }
   }
 
-  async findById(user_id: string): Promise<User> {
-    return await this.userRepos.findOneBy({ user_id: user_id });
+  async findById(user_id: string): Promise<IUserResponse> {
+    const user = await this.userRepos.findOneBy({ user_id: user_id });
+    const response: IUserResponse = {
+      user_id: user.user_id,
+      user_name: user.user_name,
+      email: user.email,
+      avatar: user.avatar,
+      role: user.role,
+      status: user.status,
+    };
+
+    return response;
   }
 
   async findByEmail(email: string): Promise<User> {

@@ -6,6 +6,7 @@ import { PlaylistSong } from 'src/entities/playlist-song.entity';
 import { Playlist } from 'src/entities/playlist.entity';
 import { Song } from 'src/entities/song.entity';
 import { Subscription } from 'src/entities/subcription.entity';
+import { Transaction } from 'src/entities/transaction.entity';
 import { User } from 'src/entities/user.entity';
 import { DataSource } from 'typeorm';
 
@@ -30,6 +31,7 @@ export const databaseProviders = [
           Album,
           Song,
           Subscription,
+          Transaction
         ],
         synchronize: true,
       });

@@ -9,32 +9,37 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../redux/store";
 import { removeTokens } from "../../../../redux/useSlice/tokenSlice";
+import { authApi } from "../../../../apis";
+import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const [isLogin, setIsLogin] = useState<boolean>(false);
-
   const dispatch = useDispatch<AppDispatch>();
+  const token = useSelector((state: RootState) => state.token);
 
-  const accessToken = useSelector<RootState>(
-    (state) => state.token.accessToken
-  );
-  const refreshToken = useSelector<RootState>(
-    (state) => state.token.refreshToken
-  );
+  // handle logout
+  const handleLogout = async () => {
+    try {
+      const payloadToken = jwtDecode<{ user_id: string }>(
+        token.accessToken || ""
+      );
+      await authApi.post(`/logout/${payloadToken.user_id}`, {
+        accessToken: token.accessToken,
+        refreshToken: token.refreshToken,
+      });
+      dispatch(removeTokens());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    if (!accessToken && !refreshToken) {
-      setIsLogin(false);
-    } else {
+    if (token.accessToken !== null && token.refreshToken !== null) {
       setIsLogin(true);
+    } else {
+      setIsLogin(false);
     }
-  }, []);
-
-  //   handle logout
-  const handleLogout = () => {
-    dispatch(removeTokens());
-    setIsLogin(false);
-  };
+  }, [token]);
 
   // Dropdown
   const userDropdownItems: MenuProps["items"] = [

@@ -11,6 +11,8 @@ import { Song } from 'src/entities/song.entity';
 import { UpdateResult } from 'typeorm';
 import { ArtistSong } from 'src/entities/artist-song.entity';
 import { ArtistRepository } from '../artists/artist.repository';
+import { Artist } from 'src/entities/artist.entity';
+import { RedisService } from '../redis/redis.service';
 
 export interface ICreateSongResponse {
   message: string;
@@ -28,30 +30,29 @@ export class SongService {
     private readonly songRepository: SongRepository,
     private readonly genreRepository: GenreRepository,
     private readonly artistRepository: ArtistRepository,
+    private readonly redisService: RedisService,
   ) {}
 
   async getAllSongsService(page: number, limit: number) {
-    try {
-      const songs = await this.songRepository.findAll(page, limit);
-      return songs;
-    } catch (error) {
-      throw new InternalServerErrorException('Internal server error');
-    }
+    const songs = await this.songRepository.findAll(page, limit);
+    return songs;
   }
 
   async getSongByIdService(song_id: string): Promise<Song> {
-    try {
+    const songCache = await this.redisService.get(`song-${song_id}`);
+    if (!songCache) {
       const song = await this.songRepository.findById(song_id);
       if (!song) {
         throw new NotFoundException('Song not found');
       }
+      await this.redisService.set(`song-${song_id}`, JSON.stringify(song), 600);
       return song;
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Internal server error');
     }
+    return JSON.parse(songCache);
+  }
+
+  async getArtistBySongService(song_id: string) {
+    return await this.songRepository.findArtistBySong(song_id);
   }
 
   async addSongService(
@@ -104,6 +105,14 @@ export class SongService {
       song.song_duration = updateSongDto.song_duration;
       song.genre = genre;
       const songUpdated = await this.songRepository.updateOne(song_id, song);
+      const songCache = await this.redisService.get(`song-${song_id}`);
+      if (songCache) {
+        await this.redisService.set(
+          `song-${song_id}`,
+          JSON.stringify(songUpdated),
+          600,
+        );
+      }
       return {
         message: 'Update song successfully',
         data: songUpdated,
@@ -119,7 +128,7 @@ export class SongService {
       return 'Delete song successfully';
     } catch (error) {
       console.log(error);
-      
+
       throw new InternalServerErrorException('Internal server error');
     }
   }

@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateSongDto } from 'src/dtos/songs/create-song.dto';
 import { ArtistSong } from 'src/entities/artist-song.entity';
+import { Artist } from 'src/entities/artist.entity';
 import { Song } from 'src/entities/song.entity';
 import { DataSource, DeleteResult, Repository, UpdateResult } from 'typeorm';
 
@@ -45,6 +46,15 @@ export class SongRepository {
       where: { song_id: song_id },
     });
     return song;
+  }
+
+  async findArtistBySong(song_id: string) {
+    const findSong = await this.findById(song_id);
+    const artistsOfSong = await this.artistSongRepos.find({
+      where: { song: findSong },
+      relations: ['artist'],
+    });
+    return artistsOfSong.map((item) => item.artist);
   }
 
   async createOne(data: Partial<Song>): Promise<Song> {

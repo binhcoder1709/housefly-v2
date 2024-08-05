@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Statistical from "../../../../components/statistical/Statistical";
 
 export default function Account() {
-  const [accountData, setAccountData] = useState<[]>([]);
+  const [accountData, setAccountData] = useState<Array<{user_id: string, user_name: string, email: string, status: number}>>([]);
   const [totalAccount, setTotalAccount] = useState<number>(0);
   const column = [
     {

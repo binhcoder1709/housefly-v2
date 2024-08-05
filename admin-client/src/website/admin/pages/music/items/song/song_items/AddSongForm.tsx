@@ -1,10 +1,20 @@
-import { Button, Form, Input, message, Modal, Select, Space } from "antd";
+import {
+  Button,
+  Form,
+  Image,
+  Input,
+  message,
+  Modal,
+  Select,
+  Space,
+} from "antd";
 import React, { FC, useEffect, useState } from "react";
 import UploadSingleFile from "../../../../../../../components/upload/UploadSingleFile";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { BiPlus } from "react-icons/bi";
 import baseUrl from "../../../../../../../apis";
+import CreateArtist from "../../artist/artist_items/CreateArtist";
 
 interface Props {
   button: React.ReactNode;
@@ -24,6 +34,7 @@ interface Genre {
 const AddSongForm: FC<Props> = (prop) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [musicUrl, setMusicUrl] = useState<string>("");
+  const [musicImageUrl, setMusicImageUrl] = useState<string>("");
   const [musicDuration, setMusicDuration] = useState<number>();
   const [artists, setArtists] = useState<Artist[]>([]);
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
@@ -70,6 +81,8 @@ const AddSongForm: FC<Props> = (prop) => {
     setSelectedGenre(e);
   };
 
+  // handle add artist
+
   // handler song duration
   const handleSongDuration = () => {
     const audio = new Audio(musicUrl);
@@ -93,13 +106,12 @@ const AddSongForm: FC<Props> = (prop) => {
       const data = {
         song_name: values.songName,
         song_path: musicUrl,
-        song_image:
-          "https://images2.thanhnien.vn/528068263637045248/2023/4/25/thai-hoang-55-16824107753271544271289.jpeg",
+        song_image: musicImageUrl,
         song_duration: musicDuration,
         genre: selectedGenre,
         artist: selectedArtists,
       };
-      
+
       try {
         const response = await baseUrl.post("/songs/create", data);
         if (response.status === 201) {
@@ -107,6 +119,7 @@ const AddSongForm: FC<Props> = (prop) => {
           setIsModalOpen(false);
           resetForm();
           setMusicUrl("");
+          setMusicImageUrl("");
           setSelectedArtists([]);
           setSelectedGenre("");
           prop.fetchData();
@@ -147,8 +160,20 @@ const AddSongForm: FC<Props> = (prop) => {
               onBlur={formik.handleBlur}
             />
           </Form.Item>
+          <Form.Item label="Ảnh bài hát">
+            <div className="flex flex-col gap-2 items-center">
+              <img
+                src={musicImageUrl || ""}
+                className="rounded-full w-[130px] h-[130px] object-cover"
+              />
+              <UploadSingleFile
+                setUrl={setMusicImageUrl}
+                enpoint="music-image"
+              />
+            </div>
+          </Form.Item>
           <Form.Item label="Tải file">
-            <UploadSingleFile setUrl={setMusicUrl} />
+            <UploadSingleFile setUrl={setMusicUrl} enpoint="music" />
           </Form.Item>
           <Form.Item label="Nghệ sĩ">
             <div className="flex gap-1">
@@ -166,7 +191,7 @@ const AddSongForm: FC<Props> = (prop) => {
                   value={selectedArtists}
                 />
               </Space>
-              <Button>
+              <Button onClick={() => CreateArtist}>
                 <BiPlus />
               </Button>
             </div>

@@ -26,7 +26,7 @@ export default function UserRoute() {
           </div>
         </div>
         {/* bottom container */}
-        <div className="w-full">
+        <div className="w-full bg-black">
           <Playbar />
         </div>
       </div>

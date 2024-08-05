@@ -4,13 +4,14 @@ import type { UploadProps } from "antd";
 import { Button, message, Upload } from "antd";
 
 interface Props {
+  enpoint: string;
   setUrl: any;
 }
 
 const UploadSingleFile: React.FC<Props> = (prop) => {
   const props: UploadProps = {
     name: "file",
-    action: `${import.meta.env.VITE_BASEURL}/upload/music`,
+    action: `${import.meta.env.VITE_BASEURL}/upload/${prop.enpoint}`,
     headers: {
       authorization: "authorization-text",
     },

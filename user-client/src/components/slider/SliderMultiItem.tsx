@@ -3,22 +3,22 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BiChevronLeftCircle, BiChevronRightCircle } from "react-icons/bi";
-import { MusicData } from "../../redux/useSlice/musicSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { setSongData } from "../../redux/useSlice/musicRefSlice";
 import { useNavigate } from "react-router-dom";
+import { MusicData } from "../../website/user/pages/music/Music";
 
 interface Props {
   title: string;
   data: MusicData[];
 }
 
-
 const SliderMultiItem: FC<Props> = (prop) => {
-  const sliderRef = useRef<Slider>(null); 
-  const dispatch = useDispatch<AppDispatch>()
-  const navigate = useNavigate()
+  console.log(prop.data);
+
+  const sliderRef = useRef<Slider>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const settings = {
     dots: false,
@@ -41,15 +41,13 @@ const SliderMultiItem: FC<Props> = (prop) => {
     }
   };
 
-  const handleDetailMusic = (item: MusicData)=>
-  {
-    navigate(`/song/${item.song_id}`)
-  }
+  const handleDetailMusic = (item: string) => {
+    navigate(`/song/${item}`);
+  };
 
-  const handleDetailArtist = (item: MusicData)=>
-  {
-    navigate(`/artist`)
-  }
+  const handleDetailArtist = (item: string) => {
+    navigate(`/artist/${item}`);
+  };
 
   return (
     <div className="slider-container flex flex-col gap-2">
@@ -75,18 +73,32 @@ const SliderMultiItem: FC<Props> = (prop) => {
         </div>
       </div>
       <Slider {...settings} ref={sliderRef}>
-        {prop.data.map((item) => (
+        {prop.data.map((item1) => (
           <div className="">
             <div>
               <img
-                src="https://images2.thanhnien.vn/528068263637045248/2023/4/25/thai-hoang-55-16824107753271544271289.jpeg"
+                src={item1.song_image}
                 className="w-[230px] h-[230px] object-cover"
                 alt="Thai Hoang"
               />
             </div>
             <div>
-              <h1 className="text-xl text-white font-bold hover:text-[#00ff00] cursor-pointer" onClick={()=>handleDetailMusic(item)}>{item.song_name}</h1>
-              <h1 className="text-white font-semibold hover:text-[#00ff00] cursor-pointer" onClick={()=>handleDetailArtist(item)}>Thai Hoang</h1>
+              <h1
+                className="text-xl text-white font-bold hover:text-[#00ff00] cursor-pointer"
+                onClick={() => handleDetailMusic(item1.song_id)}
+              >
+                {item1.song_name}
+              </h1>
+              <div className="flex items-center gap-2">
+                {item1.artists.map((item2) => (
+                  <h1
+                    className="text-white font-semibold hover:text-[#00ff00] cursor-pointer"
+                    onClick={() => handleDetailArtist(item2.artist_id)}
+                  >
+                    {item2.artist_name}
+                  </h1>
+                ))}
+              </div>
             </div>
           </div>
         ))}

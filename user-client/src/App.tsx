@@ -13,7 +13,7 @@ export default function App() {
         <Route path="/" element={<UserRoute />}>
           <Route index element={<Music />} />
           <Route path="/library" element={<Library />} />
-          <Route path="/artist" element={<ArtistDetail />} />
+          <Route path="/artist/:id" element={<ArtistDetail />} />
           <Route path="/song/:id" element={<SongDetail />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

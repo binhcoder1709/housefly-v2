@@ -28,4 +28,11 @@ export const suggestApi = axios.create({
   },
 });
 
+export const artistApi = axios.create({
+  baseURL: `${import.meta.env.VITE_BASEURL}/artists`,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 export default baseUrl;

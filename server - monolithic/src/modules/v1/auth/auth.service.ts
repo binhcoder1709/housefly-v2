@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
@@ -9,6 +10,9 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from 'src/dtos/auth/login-request.dto';
 import { User } from 'src/entities/user.entity';
+import { Cache } from 'cache-manager';
+import { timeAsJwtExpireFormat } from 'src/utils/formatTime';
+import { RedisService } from 'src/modules/v1/redis/redis.service';
 
 export interface IRegisterResponse {
   data: User;
@@ -26,6 +30,7 @@ export class AuthService {
   constructor(
     private readonly userRepos: UserRepository,
     private readonly jwtService: JwtService,
+    private readonly redisService: RedisService,
   ) {}
 
   // register function
@@ -63,7 +68,7 @@ export class AuthService {
       if (!isPasswordValid) {
         throw new UnauthorizedException('Email or password is incorrect');
       }
-      
+
       // create payload for token
       const dataPayload: PayloadToken = {
         user_id: userWithEmail.user_id,
@@ -84,6 +89,40 @@ export class AuthService {
       console.log(error);
 
       throw new InternalServerErrorException('Internal server error');
+    }
+  }
+
+  // logout service
+  async logoutService(
+    user_id: string,
+    accessToken: string,
+    refreshToken: string,
+  ) {
+    try {
+      const payloadAccessToken = this.jwtService.decode(accessToken);
+      const payloadRefreshToken = this.jwtService.decode(refreshToken);
+      await this.redisService.set(
+        `at-${user_id}`,
+        accessToken,
+        payloadAccessToken.exp - timeAsJwtExpireFormat(),
+      );
+      await this.redisService.set(
+        `rt-${user_id}`,
+        `${refreshToken}`,
+        payloadRefreshToken.exp - timeAsJwtExpireFormat(),
+      );
+      return 'Logout successfully';
+    } catch (error) { 
+      throw new InternalServerErrorException('Internal server error');
+    }
+  }
+
+  async confirmEmailService(email: string, code: number): Promise<boolean> {
+    const otpCache = await this.redisService.get(`emailOTP-${email}`);
+    if (Number(otpCache) === code) {
+      return true;
+    } else {
+      throw new UnauthorizedException('OTP is invalid');
     }
   }
 }
