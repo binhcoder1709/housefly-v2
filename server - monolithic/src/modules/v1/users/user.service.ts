@@ -115,4 +115,9 @@ export class UserService {
       throw new InternalServerErrorException('Internal server error');
     }
   }
+
+  async getSubscriptionService(user_id: string) {
+    const subscription = await this.userRepository.findSubscription(user_id);
+    return subscription;
+  }
 }

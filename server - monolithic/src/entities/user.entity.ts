@@ -8,6 +8,7 @@ import {
 import { Playlist } from './playlist.entity';
 import { Subscription } from './subcription.entity';
 import { Transaction } from './transaction.entity';
+import { Order } from './order.entity';
 
 @Entity('users')
 export class User {
@@ -46,4 +47,7 @@ export class User {
 
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions: Transaction[];
+
+  @OneToMany(() => Order, (ord) => ord.user)
+  orders: Order[];
 }

@@ -13,6 +13,7 @@ import { SuggestModule } from './modules/v1/suggests/suggest.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisModule } from './modules/v1/redis/redis.module';
 import { MailModule } from './modules/v1/mail/mail.module';
+import { ZalopayModule } from './modules/v1/payments/zalopay/zalopay.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MailModule } from './modules/v1/mail/mail.module';
     SuggestModule,
     RedisModule,
     MailModule,
+    ZalopayModule,
   ],
   controllers: [AppController],
   providers: [AppService],

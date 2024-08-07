@@ -2,6 +2,8 @@ import { Album } from 'src/entities/album.entity';
 import { ArtistSong } from 'src/entities/artist-song.entity';
 import { Artist } from 'src/entities/artist.entity';
 import { Genre } from 'src/entities/genre.entity';
+import { Order } from 'src/entities/order.entity';
+import { Plan } from 'src/entities/plan.entity';
 import { PlaylistSong } from 'src/entities/playlist-song.entity';
 import { Playlist } from 'src/entities/playlist.entity';
 import { Song } from 'src/entities/song.entity';
@@ -31,7 +33,9 @@ export const databaseProviders = [
           Album,
           Song,
           Subscription,
-          Transaction
+          Transaction,
+          Order,
+          Plan
         ],
         synchronize: true,
       });

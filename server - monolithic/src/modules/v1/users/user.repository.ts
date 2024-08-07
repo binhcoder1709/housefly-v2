@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Subscription } from 'src/entities/subcription.entity';
 import { User } from 'src/entities/user.entity';
 import { DataSource, DeleteResult, Repository, UpdateResult } from 'typeorm';
 
@@ -14,8 +15,10 @@ export interface IUserResponse {
 @Injectable()
 export class UserRepository {
   private readonly userRepos: Repository<User>;
+  private readonly subscriptionRepos: Repository<Subscription>;
   constructor(@Inject('DATA_SOURCE') private readonly dataSource: DataSource) {
     this.userRepos = this.dataSource.getRepository(User);
+    this.subscriptionRepos = this.dataSource.getRepository(Subscription);
   }
 
   async findAll(page: number, limit: number) {
@@ -75,5 +78,10 @@ export class UserRepository {
 
   async deleteOne(user_id: string): Promise<DeleteResult> {
     return await this.userRepos.delete(user_id);
+  }
+
+  async findSubscription(user_id: string) {
+    const user = await this.userRepos.findOneBy({ user_id: user_id });
+    return await this.subscriptionRepos.findOneBy({ user: user });
   }
 }

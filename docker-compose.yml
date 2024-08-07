@@ -61,5 +61,4 @@ services:
       - redis_data:/data
 volumes:
   postgres_data:
-  kong_db_data:
   redis_data:

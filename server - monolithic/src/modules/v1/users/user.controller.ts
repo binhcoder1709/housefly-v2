@@ -39,6 +39,12 @@ export class UserController {
     return await this.userService.getUserByIdService(id);
   }
 
+  @Get('/:id/subscriptions')
+  @HttpCode(200)
+  async getSubscriptionsController(@Param('id') id: string) {
+    return await this.userService.getSubscriptionService(id);
+  }
+
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(RoleGuard)
   @Put('/status')

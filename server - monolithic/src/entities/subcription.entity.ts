@@ -2,10 +2,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { Plan } from './plan.entity';
 
 @Entity('subscriptions')
 export class Subscription {
@@ -16,13 +18,14 @@ export class Subscription {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column()
-  plan: string;
+  @ManyToOne(()=> Plan, plan=> plan.subscriptions)
+  @JoinColumn({name: 'plan_id'})
+  plan: Plan;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   start_date: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp' })
   end_date: Date;
 
   @Column()
